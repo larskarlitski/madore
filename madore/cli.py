@@ -1,4 +1,7 @@
 import argparse
+import contextlib
+import os
+import sys
 
 from .render import render
 
@@ -30,7 +33,23 @@ def main():
         with args.style as f:
             options["style"] = f.read()
 
-    result = render(text, **options)
+    # callers of the exeutable expect paths, including the module search path,
+    # to be relative to the input file's directory
+    wd = os.path.abspath(os.path.dirname(args.file.name))
+
+    with change_dir_and_module_path(wd):
+        result = render(text, **options)
 
     with args.output as f:
         f.write(result)
+
+
+@contextlib.contextmanager
+def change_dir_and_module_path(d):
+    old_path = sys.path[0]
+    old_wd = os.getcwd()
+    sys.path[0] = d
+    os.chdir(d)
+    yield
+    sys.path[0] = old_path
+    os.chdir(old_wd)
