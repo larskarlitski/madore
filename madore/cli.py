@@ -14,7 +14,6 @@ def main():
                         help="the file to render")
 
     parser.add_argument("-o", "--output",
-                        type=argparse.FileType("w"),
                         default="-",
                         nargs="?",
                         help="file to render result into")
@@ -40,7 +39,7 @@ def main():
     with change_dir_and_module_path(wd):
         result = render(text, **options)
 
-    with args.output as f:
+    with open(args.output, "w") if args.output != "-" else sys.stdout as f:
         f.write(result)
 
 
