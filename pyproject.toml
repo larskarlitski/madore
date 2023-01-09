@@ -6,3 +6,6 @@ dependencies = ["mistune"]
 
 [project.scripts]
 madore = "madore:main"
+
+[tool.setuptools.package-data]
+madore = ["style.css"]

@@ -2,6 +2,8 @@
 
 import ast
 import mistune
+import os
+import pkg_resources
 
 
 _type_renderers = {}
@@ -19,61 +21,6 @@ _page_template = """
     {body}
   </body>
 </html>
-"""
-
-_default_style = """
-body {
-  max-width: 50em;
-  margin: 0 auto;
-  font-family: sans-serif;
-  color: #444;
-  font-size: 16px;
-  line-height: 1.5em;
-}
-
-strong {
-  color: black;
-}
-
-h1, h2, h3, h4, h5, h6 {
-  margin-top: 1.5em;
-  font-family: sans-serif;
-  font-weight: 300;
-  color: black;
-}
-
-table {
-  table-layout: fixed;
-  width: 100%;
-  border: none;
-  border-collapse: collapse;
-  text-align: left;
-  white-space: nowrap;
-}
-
-table thead tr:last-of-type, table tbody tr:last-of-type {
-  border-bottom: 2px solid #444;
-}
-
-table tbody tr {
-  border-bottom: 1px solid #999;
-}
-
-table th, table td {
-  padding: 0.2em 0.5em;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-/*
-table th, table td:last {
-  border-bottom: 2px solid #444;
-}
-
-table td {
-  border-bottom: 1px solid #999;
-}
-*/
 """
 
 
@@ -130,7 +77,10 @@ class ReportRenderer(mistune.HTMLRenderer):
             return self.paragraph(mistune.escape(str(value)))
 
 
-def render(text, style=_default_style):
+def render(text, style=None):
+    if style is None:
+        style = pkg_resources.resource_string(__package__, "style.css").decode()
+
     r = ReportRenderer(_type_renderers)
     md = mistune.create_markdown(renderer=r, plugins=["footnotes"])
     body = md(text)
