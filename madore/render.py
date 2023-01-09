@@ -41,6 +41,39 @@ h1, h2, h3, h4, h5, h6 {
   font-weight: 300;
   color: black;
 }
+
+table {
+  table-layout: fixed;
+  width: 100%;
+  border: none;
+  border-collapse: collapse;
+  text-align: left;
+  white-space: nowrap;
+}
+
+table thead tr:last-of-type, table tbody tr:last-of-type {
+  border-bottom: 2px solid #444;
+}
+
+table tbody tr {
+  border-bottom: 1px solid #999;
+}
+
+table th, table td {
+  padding: 0.2em 0.5em;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/*
+table th, table td:last {
+  border-bottom: 2px solid #444;
+}
+
+table td {
+  border-bottom: 1px solid #999;
+}
+*/
 """
 
 
