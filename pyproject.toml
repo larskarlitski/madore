@@ -1,8 +1,17 @@
 [project]
 name = "madore"
+description = "Python-enhanced markdown reports"
 version = "1"
+authors = [
+    { name = "Lars Karlitski", email = "lars@karlitski.net" }
+]
+readme = "README.md"
+license = { text = "Apache-2.0" }
 requires-python = ">=3.8"
 dependencies = ["mistune"]
+
+[project.urls]
+Homepage = "https://github.com/larskarlitski/madore"
 
 [project.scripts]
 madore = "madore:main"
